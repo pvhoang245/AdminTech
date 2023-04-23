@@ -67,14 +67,21 @@
             </ul>
             <div id="clock"></div>
         </div>
-        <div style="width: 20%;">
-            <label style="font-weight: bold;font-size: 20px;">Thêm sản phẩm</label>
-            <button class="btn btn-primary btn-sm trash" type="button" title="Create" onclick="createProduct()">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-            </button>
-            <button class="btn btn-primary btn-sm trash hide" type="button" title="Create" data-toggle="modal" data-target="#createModal" id="add_product">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-            </button>
+        <div style="display: flex;flex-wrap: wrap;justify-content: space-between;">
+            <div style="width: 20%;">
+                <label style="font-weight: bold;font-size: 20px;">Thêm sản phẩm</label>
+                <button class="btn btn-primary btn-sm trash" type="button" title="Create" onclick="createProduct()">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-primary btn-sm trash hide" type="button" title="Create" data-toggle="modal" data-target="#createModal" id="add_product">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div style="width: 25%;">
+                <input type="text" style="width: 300px;height: 30px;" id="searchPro" onkeyup="searchProduct()">
+                <button class="btn btn-primary btn-sm trash" disabled onkeyup="searchProduct()">Tìm kiếm</button>
+
+            </div>
         </div>
         <div class="row">
             <div class="col-md-12">
