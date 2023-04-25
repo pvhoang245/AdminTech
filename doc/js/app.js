@@ -536,3 +536,192 @@ function top5Sell() {
         })
         .catch(error => console.error(error));
 }
+
+//Order 
+
+
+
+
+
+
+
+
+
+
+
+//Customer
+function getAllCustomer() {
+    fetch('http://localhost:8888/customers/view')
+        .then(response => response.json())
+        .then(customers => {
+            const tableBody = document.querySelector('#customerTable tbody');
+            customers.forEach(customer => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+            <td>${customer.cid}</td>
+            <td>${customer.name}</td>
+            <td>${customer.username}</td>
+            <td>${customer.phone_number}</td>
+            <td>${customer.email}</td>
+            <td>${customer.password}</td>
+            <td>
+                <button class="btn btn-primary btn-sm trash" type="button" title="Xóa" onclick="popupDaleteCustomer(${customer.cid})">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+                    <button class="btn btn-primary btn-sm edit hide" type="button" title="Sửa" id="accept_delete" data-toggle="modal" data-target="#deleteModal">
+                <i class="fas fa-trash-alt"></i>
+                </button>
+                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" onclick="getCustomerById(${customer.cid})">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-primary btn-sm edit hide" type="button" title="Sửa" id="updateCus" data-toggle="modal" data-target="#ModalUP">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </td>
+        `;
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => console.error(error));
+}
+
+function createCustomerFinal() {
+    var name = document.querySelector('input[name="nameCreate"]').value
+    var username = document.querySelector('input[name="usernameCreate"]').value
+    var phone_number = document.querySelector('input[name="phone_numberCreate"]').value
+    var email = document.querySelector('input[name="emailCreate"]').value
+    var password = document.querySelector('input[name="passwordCreate"]').value
+        // tạo đối tượng user từ dữ liệu form
+    var user = {
+        "name": name,
+        "username": username,
+        "phone_number": phone_number,
+        "email": email,
+        "password": password
+    };
+    apiUrl = "http://localhost:8888/customers/add";
+    // gửi yêu cầu POST đến API
+    fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+        .then(function(response) {
+            // nếu thành công, hiển thị thông báo và làm mới trang
+            if (response.ok) {
+                alert("Customer added successfully!");
+                location.reload();
+            } else {
+                // nếu có lỗi, hiển thị thông báo lỗi
+                throw new Error('Response not OK');
+            }
+        })
+        .catch(function(error) {
+            alert("Error: " + error.message);
+        });
+}
+
+function popupDaleteCustomer(cid) {
+    document.querySelector('#accept_to_delete').innerHTML = `
+    <button class="btn btn-save" type="button" onclick="deleteCustomerById(${cid})" style="margin-left: 150px;">Đồng ý</button>
+    <a class="btn btn-cancel" data-dismiss="modal" href="#" style="margin-left: 30px;">Hủy bỏ</a>`
+    document.querySelector('#accept_delete').click();
+
+}
+
+function deleteCustomerById(cid) {
+    fetch('http://localhost:8888/customers/remove/' + cid, {
+            method: 'DELETE'
+        })
+        .then(function(response) {
+            // nếu thành công, hiển thị thông báo và làm mới trang
+            if (response.ok) {
+                alert("Customer deleted successfully!");
+                location.reload();
+            } else {
+                // nếu có lỗi, hiển thị thông báo lỗi
+                throw new Error('Response not OK');
+            }
+        })
+        .catch(function(error) {
+            alert("Error: " + error.message);
+        });
+}
+
+function getCustomerById(cid) {
+    apiUrl = "http://localhost:8888/customers/viewCustomer/" + cid;
+    fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            var listCustomer = document.querySelector('#update_customer');
+            var content = `<div class="form-group col-md-6">
+            <label class="control-label"> Mã khách hàng </label>
+            <input class="form-control" name="cid" type="text" disabled value="${data.cid}">
+        </div>
+        <div class="form-group col-md-6">
+            <label class="control-label"> Tên khách hàng </label>
+            <input class="form-control" name="name" type="text" required value="${data.name}">
+        </div>
+        <div class="form-group  col-md-6">
+            <label class="control-label"> Tài khoản </label>
+            <input class="form-control" name="username" type="text" required value="${data.username}">
+        </div>
+        <div class="form-group col-md-6">
+            <label class="control-label"> Email </label>
+            <input class="form-control" name="email" type="email" required value="${data.email}">
+        </div>
+        <div class="form-group col-md-6">
+            <label class="control-label"> Số điện thoại </label>
+            <input class="form-control" name="phone_number" type="text" required value="${data.phone_number}">
+        </div>`;
+            listCustomer.innerHTML = content;
+            document.querySelector('#updateCus').click();
+        })
+        .catch(error => console.error(error));
+}
+
+function updateCustomer() {
+    var cid = parseInt(document.querySelector('input[name="cid"]').value)
+    var name = document.querySelector('input[name="name"]').value
+    var username = document.querySelector('input[name="username"]').value
+    var email = document.querySelector('input[name="email"]').value
+    var phone_number = document.querySelector('input[name="phone_number"]').value
+        // tạo đối tượng user từ dữ liệu form
+    var customer = {
+        "cid": cid,
+        "name": name,
+        "username": username,
+        "email": email,
+        "phone_number": phone_number
+    };
+    console.log(customer);
+    apiUrl = "http://localhost:8888/customers/update/" + cid;
+    // gửi yêu cầu POST đến API
+    fetch(apiUrl, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(customer)
+        })
+        .then(function(response) {
+            // nếu thành công, hiển thị thông báo và làm mới trang
+            if (response.ok) {
+                alert("Customer changed successfully!");
+                location.reload();
+            } else {
+                // nếu có lỗi, hiển thị thông báo lỗi
+                throw new Error('Response not OK');
+            }
+        })
+        .catch(function(error) {
+            alert("Error: " + error.message);
+        });
+}
