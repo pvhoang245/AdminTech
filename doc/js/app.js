@@ -180,7 +180,8 @@ function updateProduct() {
                 location.reload();
             } else {
                 // nếu có lỗi, hiển thị thông báo lỗi
-                throw new Error('Response not OK');
+                alert('Response not OK');
+                location.reload();
             }
         })
         .catch(function(error) {
@@ -259,12 +260,11 @@ function searchProduct() {
     var user = {
         "content": chuoi
     };
-    fetch("http://localhost:8888/products/search", {
+    fetch("http://localhost:8888/products/search/" + chuoi, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user)
+            }
         })
         .then(response => response.json())
         .then(datas => {
@@ -537,8 +537,215 @@ function top5Sell() {
         .catch(error => console.error(error));
 }
 
+function top5Order() {
+    apiUrl = "http://localhost:8888/orders/viewNearOrder"
+    fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(datas => {
+            var listUser = document.querySelector('#top5Order');
+            var content = datas.map(function(user) {
+                return `<tr><td>${user.orderId}</td>
+                <td>${user.customer.name}</td>
+                <td>${user.location}</td>
+                <td>${user.paymentMethod}</td>
+                <td>${user.total_price}</td>
+                <td>${user.orderStatus}</td></tr>`;
+            });
+            listUser.innerHTML = content.join('');
+        })
+        .catch(error => console.error(error));
+}
+
+function topEndProduct() {
+    apiUrl = "http://localhost:8888/products/topEndProduct"
+    fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(datas => {
+            var listUser = document.querySelector('#topEndProduct');
+            var content = datas.map(function(user) {
+                return `<tr><td>${user.productId}</td>
+                <td>${user.productName}</td>
+                <td>${user.quantity}</td>
+                <td>${user.manufacturer}</td>
+                <td>${user.category.categoryName}</td>
+                <td>${user.description}</td></tr>`;
+            });
+            listUser.innerHTML = content.join('');
+        })
+        .catch(error => console.error(error));
+}
+
+function createChart() {
+    var fake = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    var apiUrl = "http://localhost:8888/orders/chart"
+    fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(datas => {
+            datas.map(function(data) {
+                fake[data[0]] = data[1]
+            })
+        })
+        .catch(error => console.error(error));
+    console.log(fake)
+    var data = {
+        labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
+        datasets: [{
+            label: "Dữ liệu đầu tiên",
+            fillColor: "rgba(255, 213, 59, 0.767), 212, 59)",
+            strokeColor: "rgb(255, 212, 59)",
+            pointColor: "rgb(255, 212, 59)",
+            pointStrokeColor: "rgb(255, 212, 59)",
+            pointHighlightFill: "rgb(255, 212, 59)",
+            pointHighlightStroke: "rgb(255, 212, 59)",
+            data: fake
+        }]
+    };
+    var ctxl = $("#lineChartDemo").get(0).getContext("2d");
+    var lineChart = new Chart(ctxl).Line(data);
+
+    var ctxb = $("#barChartDemo").get(0).getContext("2d");
+    var barChart = new Chart(ctxb).Bar(data);
+}
+
 //Order 
 
+
+function getAllOrderByCustomerId() {
+    var a = document.querySelector('#search').value;
+    var apiUrl = "http://localhost:8888/orders/viewOrderByUser/" + a;
+    fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(datas => {
+            var listOrder = document.querySelector('#list_order');
+            var content = datas.map(function(order) {
+                return `<tr>
+                <td>${order.orderId}</td>
+				<td>${order.customer.name}</td>
+                <td>${order.location}</td>
+                <td>${order.date}</td>
+                <td>${order.paymentMethod}</td>
+                <td>${order.total_price}</td>
+                <td>${order.orderStatus}</td>
+                <td>
+                    <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal" data-target="#ModalUP" onclick="getOrderById(${order.orderId})"><i class="fas fa-edit"></i></button>
+                </td></tr>`;
+            });
+            listOrder.innerHTML = content.join('');
+        })
+        .catch(error => console.error(error));
+}
+
+
+function getAllOrder() {
+    var apiUrl = "http://localhost:8888/orders/view";
+    fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(datas => {
+            var listOrder = document.querySelector('#list_order_all');
+            var content = datas.map(function(order) {
+                return `<tr>
+                <td>${order.orderId}</td>
+				<td>${order.customer.name}</td>
+                <td>${order.location}</td>
+                <td>${order.date}</td>
+                <td>${order.paymentMethod}</td>
+                <td>${order.total_price}</td>
+                <td>${order.orderStatus}</td>
+                <td>
+                    <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal" data-target="#ModalUP" onclick="getOrderById(${order.orderId})"><i class="fas fa-edit"></i></button>
+                </td></tr>`;
+            });
+            listOrder.innerHTML = content.join('');
+        })
+        .catch(error => console.error(error));
+}
+
+
+function getOrderById(id) {
+    apiUrl = "http://localhost:8888/orders/view/" + id;
+    fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            var listOrder123 = document.querySelector('#update_order');
+            var content = `
+        <div class="form-group col-md-6">
+            <label class="control-label"> Mã hóa đơn </label>
+            <input class="form-control" name="orderId" type="text" disabled value="${data.orderId}">
+        </div>
+        <div class="form-group  col-md-6">
+            <label class="control-label"> Vị trí giao hàng</label>
+            <input class="form-control" name="locations" type="text" required value="${data.location}">
+        </div>
+        <div class="form-group  col-md-6">
+            <label class="control-label"> phương thức thanh toán </label>
+            <input class="form-control" name="payment_method" type="text" required value="${data.paymentMethod}">
+        </div>`;
+            listOrder123.innerHTML = content;
+        }).catch(error => console.error(error));
+}
+
+
+function updateOrder() {
+    var orderId = parseInt(document.querySelector('input[name="orderId"]').value)
+    var locations = document.querySelector('input[name="locations"]').value
+    var payment_method = document.querySelector('input[name="payment_method"]').value
+
+    apiUrl = "http://localhost:8888/orders/update/" + orderId + "/" + locations + "/" + payment_method
+
+    // gửi yêu cầu POST đến API
+    fetch(apiUrl, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify()
+        })
+        .then(function(response) {
+            // nếu thành công, hiển thị thông báo và làm mới trang
+            if (response.ok) {
+                alert("Order changed successfully!");
+                location.reload();
+            } else {
+                // nếu có lỗi, hiển thị thông báo lỗi
+                throw new Error('Response not OK');
+            }
+        })
+        .catch(function(error) {
+            alert("Error: " + error.message);
+        });
+}
+
+getAllOrder();
 
 
 
@@ -723,5 +930,36 @@ function updateCustomer() {
         })
         .catch(function(error) {
             alert("Error: " + error.message);
+        });
+}
+
+
+//FireBase
+
+function getUrl() {
+    // Khai báo một instance Firebase
+    var firebaseConfig = {
+        apiKey: "AIzaSyDow9PLyg6kLQbKFTFqZ4duBdDQfXnJ23k",
+        authDomain: "TechEcommerceServer.firebaseapp.com",
+        storageBucket: "TechEcommerceServer.appspot.com",
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // Khai báo một instance Firebase Storage
+    var storageRef = firebase.storage().ref();
+
+    // Lấy URL của một ảnh lưu trên Firebase Storage
+    storageRef
+        .child("products_img/iPhone 14 pro.png")
+        .getDownloadURL()
+        .then(function(url) {
+            // Sử dụng URL để hiển thị ảnh trong HTML
+            // var img = document.createElement("img");
+            // img.src = url;
+            // document.body.appendChild(img);
+            console.log(url)
+        })
+        .catch(function(error) {
+            console.error(error);
         });
 }
