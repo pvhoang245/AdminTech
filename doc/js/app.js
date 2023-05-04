@@ -1,6 +1,10 @@
+var domain = 'http://localhost:8888'
+
+
+
 //Product 
 function getAllProduct() {
-    apiUrl = "http://localhost:8888/products/view"
+    apiUrl = domain + "/products/view"
     fetch(apiUrl, {
             method: 'GET',
             headers: {
@@ -43,7 +47,7 @@ function popupDeleteProduct(id) {
 }
 
 function deleteProductById(id) {
-    fetch('http://localhost:8888/products/remove/' + id, {
+    fetch(domain + '/products/remove/' + id, {
             method: 'DELETE'
         })
         .then(function(response) {
@@ -60,7 +64,7 @@ function deleteProductById(id) {
 }
 
 function getProductById(id) {
-    apiUrl = "http://localhost:8888/products/viewProduct/" + id;
+    apiUrl = domain + "/products/viewProduct/" + id;
     fetch(apiUrl, {
             method: 'GET',
             headers: {
@@ -117,7 +121,7 @@ function getProductById(id) {
                             </select>
                         </div>`;
             listUser.innerHTML = content;
-            fetch("http://localhost:8888/category/getAll", {
+            fetch(domain + "/category/getAll", {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -164,7 +168,7 @@ function updateProduct() {
         "quantity": quantity,
         "color": color
     };
-    apiUrl = "http://localhost:8888/products/update/" + productId;
+    apiUrl = domain + "/products/update/" + productId;
     fetch(apiUrl, {
             method: 'PUT',
             headers: {
@@ -208,7 +212,7 @@ function createProductFinal() {
         "numberSell": 0,
         "color": color
     };
-    apiUrl = "http://localhost:8888/products/add";
+    apiUrl = domain + "/products/add";
     fetch(apiUrl, {
             method: 'POST',
             headers: {
@@ -230,7 +234,7 @@ function createProductFinal() {
 }
 
 function createProduct() {
-    fetch("http://localhost:8888/category/getAll", {
+    fetch(domain + "/category/getAll", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -254,7 +258,7 @@ function searchProduct() {
     var user = {
         "content": chuoi
     };
-    fetch("http://localhost:8888/products/search/" + chuoi, {
+    fetch(domain + "/products/search/" + chuoi, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -294,7 +298,7 @@ function searchProduct() {
 
 //Category 
 function getAllCategory() {
-    apiUrl = "http://localhost:8888/category/getAll"
+    apiUrl = domain + "/category/getAll"
     fetch(apiUrl, {
             method: 'GET',
             headers: {
@@ -320,7 +324,7 @@ function getAllCategory() {
 }
 
 function createCategory() {
-    fetch("http://localhost:8888/category/count", {
+    fetch(domain + "/category/count", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -342,7 +346,7 @@ function updateCategory() {
         "categoryId": categoryId,
         "categoryName": categoryName
     };
-    apiUrl = "http://localhost:8888/category/update/" + categoryId;
+    apiUrl = domain + "/category/update/" + categoryId;
     fetch(apiUrl, {
             method: 'PUT',
             headers: {
@@ -371,7 +375,7 @@ function popupDaleteCategory(id) {
 }
 
 function deleteCategoryById(id) {
-    fetch('http://localhost:8888/category/remove/' + id, {
+    fetch(domain + '/category/remove/' + id, {
             method: 'DELETE'
         })
         .then(function(response) {
@@ -394,7 +398,7 @@ function createCategoryFinal() {
         "categoryId": categoryId,
         "categoryName": categoryName
     };
-    apiUrl = "http://localhost:8888/category/add";
+    apiUrl = domain + "/category/add";
     fetch(apiUrl, {
             method: 'POST',
             headers: {
@@ -416,7 +420,7 @@ function createCategoryFinal() {
 }
 
 function getCategoryById(id) {
-    apiUrl = "http://localhost:8888/category/get/" + id;
+    apiUrl = domain + "/category/get/" + id;
     fetch(apiUrl, {
             method: 'GET',
             headers: {
@@ -446,7 +450,7 @@ function getCategoryById(id) {
 
 //Main 
 function countCustomer() {
-    fetch("http://localhost:8888/customers/count", {
+    fetch(domain + "/customers/count", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -461,7 +465,7 @@ function countCustomer() {
 }
 
 function countProduct() {
-    fetch("http://localhost:8888/products/count", {
+    fetch(domain + "/products/count", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -476,7 +480,7 @@ function countProduct() {
 }
 
 function countOrder() {
-    fetch("http://localhost:8888/orders/count", {
+    fetch(domain + "/orders/count", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -491,7 +495,7 @@ function countOrder() {
 }
 
 function countEndProduct() {
-    fetch("http://localhost:8888/products/countEnd", {
+    fetch(domain + "/products/countEnd", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -506,7 +510,7 @@ function countEndProduct() {
 }
 
 function top5Sell() {
-    apiUrl = "http://localhost:8888/products/topSell"
+    apiUrl = domain + "/products/topSell"
     fetch(apiUrl, {
             method: 'GET',
             headers: {
@@ -531,7 +535,7 @@ function top5Sell() {
 }
 
 function top5Order() {
-    apiUrl = "http://localhost:8888/orders/viewNearOrder"
+    apiUrl = domain + "/orders/viewNearOrder"
     fetch(apiUrl, {
             method: 'GET',
             headers: {
@@ -555,7 +559,7 @@ function top5Order() {
 }
 
 function topEndProduct() {
-    apiUrl = "http://localhost:8888/products/topEndProduct"
+    apiUrl = domain + "/products/topEndProduct"
     fetch(apiUrl, {
             method: 'GET',
             headers: {
@@ -588,7 +592,7 @@ function topEndProduct() {
 //Order 
 function getAllOrderByCustomerId() {
     var a = document.querySelector('#search').value;
-    var apiUrl = "http://localhost:8888/orders/viewOrderByUser/" + a;
+    var apiUrl = domain + "/orders/viewOrderByUser/" + a;
     fetch(apiUrl, {
             method: 'GET',
             headers: {
@@ -618,7 +622,7 @@ function getAllOrderByCustomerId() {
 
 
 function getAllOrder() {
-    var apiUrl = "http://localhost:8888/orders/view";
+    var apiUrl = domain + "/orders/view";
     fetch(apiUrl, {
             method: 'GET',
             headers: {
@@ -648,7 +652,7 @@ function getAllOrder() {
 
 
 function getOrderById(id) {
-    apiUrl = "http://localhost:8888/orders/view/" + id;
+    apiUrl = domain + "/orders/view/" + id;
     fetch(apiUrl, {
             method: 'GET',
             headers: {
@@ -681,7 +685,7 @@ function updateOrder() {
     var locations = document.querySelector('input[name="locations"]').value
     var payment_method = document.querySelector('input[name="payment_method"]').value
 
-    apiUrl = "http://localhost:8888/orders/update/" + orderId + "/" + locations + "/" + payment_method
+    apiUrl = domain + "/orders/update/" + orderId + "/" + locations + "/" + payment_method
 
     fetch(apiUrl, {
             method: 'PUT',
@@ -716,7 +720,7 @@ getAllOrder();
 
 //Customer
 function getAllCustomer() {
-    fetch('http://localhost:8888/customers/view')
+    fetch(domain + '/customers/view')
         .then(response => response.json())
         .then(customers => {
             const tableBody = document.querySelector('#customerTable tbody');
@@ -763,7 +767,7 @@ function createCustomerFinal() {
         "email": email,
         "password": password
     };
-    apiUrl = "http://localhost:8888/customers/add";
+    apiUrl = domain + "/customers/add";
     fetch(apiUrl, {
             method: 'POST',
             headers: {
@@ -793,7 +797,7 @@ function popupDaleteCustomer(cid) {
 }
 
 function deleteCustomerById(cid) {
-    fetch('http://localhost:8888/customers/remove/' + cid, {
+    fetch(domain + '/customers/remove/' + cid, {
             method: 'DELETE'
         })
         .then(function(response) {
@@ -810,7 +814,7 @@ function deleteCustomerById(cid) {
 }
 
 function getCustomerById(cid) {
-    apiUrl = "http://localhost:8888/customers/viewCustomer/" + cid;
+    apiUrl = domain + "/customers/viewCustomer/" + cid;
     fetch(apiUrl, {
             method: 'GET',
             headers: {
@@ -860,7 +864,7 @@ function updateCustomer() {
         "phone_number": phone_number
     };
     console.log(customer);
-    apiUrl = "http://localhost:8888/customers/update/" + cid;
+    apiUrl = domain + "/customers/update/" + cid;
     fetch(apiUrl, {
             method: 'PUT',
             headers: {
