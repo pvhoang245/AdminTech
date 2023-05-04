@@ -1,11 +1,14 @@
-var domain = 'http://localhost:8888'
+// var domain = "https://bb8b-2405-4802-1c8e-6570-bc22-33c0-1f40-c5d1.ngrok-free.app"
+var domain = "http://localhost:8888"
+
 
 
 
 //Product 
 function getAllProduct() {
-    apiUrl = domain + "/products/view"
+    apiUrl = "/products/view"
     fetch(apiUrl, {
+            mode: 'no-cors',
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -671,9 +674,22 @@ function getOrderById(id) {
             <label class="control-label"> Vị trí giao hàng</label>
             <input class="form-control" name="locations" type="text" required value="${data.location}">
         </div>
-        <div class="form-group  col-md-6">
-            <label class="control-label"> phương thức thanh toán </label>
-            <input class="form-control" name="payment_method" type="text" required value="${data.paymentMethod}">
+		<div class="form-group col-md-6 ">
+            <label for="exampleSelect1" class="control-label"> phương thức thanh toán </label>
+            <select class="form-control" id="payment_method">
+                <option> Zalo Pay </option>
+                <option> COD </option>
+                <option> ATM </option>
+            </select>
+        </div>
+		<div class="form-group col-md-6 ">
+            <label for="exampleSelect1" class="control-label"> Tình Trạng </label>
+            <select class="form-control" id="orderStatus">
+                <option> Pending   </option>
+                <option> Delivered </option>
+                <option> Cancelled </option>
+				<option> Paid </option>
+            </select>
         </div>`;
             listOrder123.innerHTML = content;
         }).catch(error => console.error(error));
@@ -683,9 +699,10 @@ function getOrderById(id) {
 function updateOrder() {
     var orderId = parseInt(document.querySelector('input[name="orderId"]').value)
     var locations = document.querySelector('input[name="locations"]').value
-    var payment_method = document.querySelector('input[name="payment_method"]').value
+    var payment_method = document.querySelector('#payment_method').value
+    var orderStatus = document.querySelector('#orderStatus').value
 
-    apiUrl = domain + "/orders/update/" + orderId + "/" + locations + "/" + payment_method
+    apiUrl = domain + "/orders/update/" + orderId + "/" + locations + "/" + payment_method + "/" + orderStatus;
 
     fetch(apiUrl, {
             method: 'PUT',
@@ -707,7 +724,6 @@ function updateOrder() {
         });
 }
 
-getAllOrder();
 
 
 
@@ -891,33 +907,33 @@ function updateCustomer() {
 
 
 //FireBase
-function getUrl(imgName) {
-    var firebaseConfig = {
-        apiKey: "AIzaSyDow9PLyg6kLQbKFTFqZ4duBdDQfXnJ23k",
-        authDomain: "techecommerceserver.firebaseapp.com",
-        storageBucket: "techecommerceserver.appspot.com",
-    };
-    firebase.initializeApp(firebaseConfig);
+// function getUrl(imgName) {
+//     var firebaseConfig = {
+//         apiKey: "AIzaSyDow9PLyg6kLQbKFTFqZ4duBdDQfXnJ23k",
+//         authDomain: "techecommerceserver.firebaseapp.com",
+//         storageBucket: "techecommerceserver.appspot.com",
+//     };
+//     firebase.initializeApp(firebaseConfig);
 
-    var storageRef = firebase.storage().ref();
-    imgtag = document.querySelector(imgName)
-    storageRef
-        .child("products_img")
-        .listAll()
-        .then(function(imgs) {
-            var content = imgs.items.map(function(img) {
-                var urls = img.location.path_
-                console.log(urls)
-                storageRef
-                    .child(urls)
-                    .getDownloadURL()
-                    .then(function(url) {
-                        htmlTemplate = `<option value="${url}"> ${img.name.split('.')[0]} </option>`;
-                        imgtag.innerHTML += htmlTemplate;
-                    });
-            });
-        })
-        .catch(function(error) {
-            console.error(error);
-        });
-}
+//     var storageRef = firebase.storage().ref();
+//     imgtag = document.querySelector(imgName)
+//     storageRef
+//         .child("products_img")
+//         .listAll()
+//         .then(function(imgs) {
+//             var content = imgs.items.map(function(img) {
+//                 var urls = img.location.path_
+//                 console.log(urls)
+//                 storageRef
+//                     .child(urls)
+//                     .getDownloadURL()
+//                     .then(function(url) {
+//                         htmlTemplate = `<option value="${url}"> ${img.name.split('.')[0]} </option>`;
+//                         imgtag.innerHTML += htmlTemplate;
+//                     });
+//             });
+//         })
+//         .catch(function(error) {
+//             console.error(error);
+//         });
+// }
