@@ -906,33 +906,33 @@ function updateCustomer() {
 
 
 //FireBase
-// function getUrl(imgName) {
-//     var firebaseConfig = {
-//         apiKey: "AIzaSyDow9PLyg6kLQbKFTFqZ4duBdDQfXnJ23k",
-//         authDomain: "techecommerceserver.firebaseapp.com",
-//         storageBucket: "techecommerceserver.appspot.com",
-//     };
-//     firebase.initializeApp(firebaseConfig);
+function getUrl(imgName) {
+    var firebaseConfig = {
+        apiKey: "AIzaSyDow9PLyg6kLQbKFTFqZ4duBdDQfXnJ23k",
+        authDomain: "techecommerceserver.firebaseapp.com",
+        storageBucket: "techecommerceserver.appspot.com",
+    };
+    firebase.initializeApp(firebaseConfig);
 
-//     var storageRef = firebase.storage().ref();
-//     imgtag = document.querySelector(imgName)
-//     storageRef
-//         .child("products_img")
-//         .listAll()
-//         .then(function(imgs) {
-//             var content = imgs.items.map(function(img) {
-//                 var urls = img.location.path_
-//                 console.log(urls)
-//                 storageRef
-//                     .child(urls)
-//                     .getDownloadURL()
-//                     .then(function(url) {
-//                         htmlTemplate = `<option value="${url}"> ${img.name.split('.')[0]} </option>`;
-//                         imgtag.innerHTML += htmlTemplate;
-//                     });
-//             });
-//         })
-//         .catch(function(error) {
-//             console.error(error);
-//         });
-// }
+    var storageRef = firebase.storage().ref();
+    imgtag = document.querySelector(imgName)
+    storageRef
+        .child("products_img")
+        .listAll()
+        .then(function(imgs) {
+            var content = imgs.items.map(function(img) {
+                var urls = img.location.path_
+                console.log(urls)
+                storageRef
+                    .child(urls)
+                    .getDownloadURL()
+                    .then(function(url) {
+                        htmlTemplate = `<option value="${url}"> ${img.name.split('.')[0]} </option>`;
+                        imgtag.innerHTML += htmlTemplate;
+                    });
+            });
+        })
+        .catch(function(error) {
+            console.error(error);
+        });
+}
