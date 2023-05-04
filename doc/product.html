@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
     <script src="./js/app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-storage.js"></script>
 
 </head>
 
@@ -31,7 +33,7 @@
 
 
             <!-- User Menu-->
-            <li><a class="app-nav__item" href="/Admin/index.html"><i class='bx bx-log-out bx-rotate-180'></i> </a>
+            <li><a class="app-nav__item" href="/index.html"><i class='bx bx-log-out bx-rotate-180'></i> </a>
 
             </li>
         </ul>
@@ -194,7 +196,7 @@
         font-weight: 600;
         color: #ea0000;">Chỉnh sửa sản phẩm nâng cao</a> -->
                     <button class="btn btn-save" type="button" onclick="updateProduct()">Lưu lại</button>
-                    <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                    <a class="btn btn-cancel" data-dismiss="modal" href="#" onclick="location.reload()">Hủy bỏ</a>
                     <BR>
                 </div>
                 <div class="modal-footer">
@@ -276,9 +278,10 @@
                                 <option> Máy giặt </option>
                             </select>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6 ">
                             <label class="control-label"> Ảnh </label>
-                            <input class="form-control" type="text" name="imageCreate" value="">
+                            <select class="form-control" id="imageCreate">
+                            </select>
                         </div>
                     </div>
                     <BR>
@@ -286,7 +289,7 @@
         font-weight: 600;
         color: #ea0000;">Chỉnh sửa sản phẩm nâng cao</a> -->
                     <button class="btn btn-save" type="button" onclick="createProductFinal()">Lưu lại</button>
-                    <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                    <a class="btn btn-cancel" data-dismiss="modal" href="#" onclick="location.reload()">Hủy bỏ</a>
                     <BR>
                 </div>
                 <div class="modal-footer">

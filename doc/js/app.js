@@ -23,7 +23,7 @@ function getAllProduct() {
                 <td>${user.price}</td>
                 <td>${user.category.categoryName}</td>
                 <td>${user.description}</td>
-                <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa" onclick="popupDaleteProduct(${user.productId})"><i class="fas fa-trash-alt"></i></button>
+                <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa" onclick="popupDeleteProduct(${user.productId})"><i class="fas fa-trash-alt"></i></button>
                     <button class="btn btn-primary btn-sm edit hide" type="button" title="Sửa" id="accept_delete" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash-alt"></i></button>
                     <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" onclick="getProductById(${user.productId})"><i class="fas fa-edit"></i></button>
                     <button class="btn btn-primary btn-sm edit hide" type="button" title="Sửa" id="show-emp" data-toggle="modal" data-target="#ModalUP"><i class="fas fa-edit"></i></button>
@@ -34,7 +34,7 @@ function getAllProduct() {
         .catch(error => console.error(error));
 }
 
-function popupDaleteProduct(id) {
+function popupDeleteProduct(id) {
     document.querySelector('#accept_to_delete').innerHTML = `
     <button class="btn btn-save" type="button" onclick="deleteProductById(${id})" style="margin-left: 150px;">Đồng ý</button>
     <a class="btn btn-cancel" data-dismiss="modal" href="#" style="margin-left: 30px;">Hủy bỏ</a>`
@@ -47,12 +47,10 @@ function deleteProductById(id) {
             method: 'DELETE'
         })
         .then(function(response) {
-            // nếu thành công, hiển thị thông báo và làm mới trang
             if (response.ok) {
                 alert("Product deleted successfully!");
                 location.reload();
             } else {
-                // nếu có lỗi, hiển thị thông báo lỗi
                 throw new Error('Response not OK');
             }
         })
@@ -112,10 +110,12 @@ function getProductById(id) {
                 <option> Máy giặt </option>
             </select>
         </div>
-        <div class="form-group col-md-6">
-            <label class="control-label"> Ảnh </label>
-            <input class="form-control" type="text" name="image" value="${data.image}">
-        </div>`;
+        <div class="form-group col-md-6 ">
+                            <label class="control-label"> Ảnh </label>
+                            <select class="form-control" id="image">
+                            <option value="${data.image}"> ${data.image} </option>
+                            </select>
+                        </div>`;
             listUser.innerHTML = content;
             fetch("http://localhost:8888/category/getAll", {
                     method: 'GET',
@@ -136,6 +136,7 @@ function getProductById(id) {
                     listCategory.innerHTML = content.join('');
                 })
                 .catch(error => console.error(error));
+            getUrl('#image')
             document.querySelector('#show-emp').click();
         })
         .catch(error => console.error(error));
@@ -150,9 +151,8 @@ function updateProduct() {
     var color = document.querySelector('input[name="color"]').value
     var size = document.querySelector('input[name="size"]').value
     var description = document.querySelector('input[name="description"]').value
-    var image = document.querySelector('input[name="image"]').value
+    var image = document.querySelector('#image').value
     var categoryId = parseInt(document.querySelector('#category').value)
-        // tạo đối tượng user từ dữ liệu form
     var user = {
         "productName": productName,
         "price": price,
@@ -165,7 +165,6 @@ function updateProduct() {
         "color": color
     };
     apiUrl = "http://localhost:8888/products/update/" + productId;
-    // gửi yêu cầu POST đến API
     fetch(apiUrl, {
             method: 'PUT',
             headers: {
@@ -174,12 +173,10 @@ function updateProduct() {
             body: JSON.stringify(user)
         })
         .then(function(response) {
-            // nếu thành công, hiển thị thông báo và làm mới trang
             if (response.ok) {
                 alert("Product changed successfully!");
                 location.reload();
             } else {
-                // nếu có lỗi, hiển thị thông báo lỗi
                 alert('Response not OK');
                 location.reload();
             }
@@ -197,9 +194,8 @@ function createProductFinal() {
     var color = document.querySelector('input[name="colorCreate"]').value
     var size = document.querySelector('input[name="sizeCreate"]').value
     var description = document.querySelector('input[name="descriptionCreate"]').value
-    var image = document.querySelector('input[name="imageCreate"]').value
+    var image = document.querySelector('#imageCreate').value
     var categoryId = parseInt(document.querySelector('#categoryCreate').value)
-        // tạo đối tượng user từ dữ liệu form
     var user = {
         "productName": productName,
         "price": price,
@@ -213,7 +209,6 @@ function createProductFinal() {
         "color": color
     };
     apiUrl = "http://localhost:8888/products/add";
-    // gửi yêu cầu POST đến API
     fetch(apiUrl, {
             method: 'POST',
             headers: {
@@ -222,12 +217,10 @@ function createProductFinal() {
             body: JSON.stringify(user)
         })
         .then(function(response) {
-            // nếu thành công, hiển thị thông báo và làm mới trang
             if (response.ok) {
                 alert("Product added successfully!");
                 location.reload();
             } else {
-                // nếu có lỗi, hiển thị thông báo lỗi
                 throw new Error('Response not OK');
             }
         })
@@ -252,6 +245,7 @@ function createProduct() {
             listCategory.innerHTML = content.join('');
         })
         .catch(error => console.error(error));
+    getUrl('#imageCreate')
     document.querySelector('#add_product').click();
 }
 
@@ -292,6 +286,11 @@ function searchProduct() {
         })
         .catch(error => console.error(error));
 }
+
+
+
+
+
 
 //Category 
 function getAllCategory() {
@@ -339,13 +338,11 @@ function createCategory() {
 function updateCategory() {
     var categoryId = document.querySelector('input[name="categoryId"]').value
     var categoryName = document.querySelector('input[name="categoryName"]').value
-        // tạo đối tượng user từ dữ liệu form
     var user = {
         "categoryId": categoryId,
         "categoryName": categoryName
     };
     apiUrl = "http://localhost:8888/category/update/" + categoryId;
-    // gửi yêu cầu POST đến API
     fetch(apiUrl, {
             method: 'PUT',
             headers: {
@@ -354,12 +351,10 @@ function updateCategory() {
             body: JSON.stringify(user)
         })
         .then(function(response) {
-            // nếu thành công, hiển thị thông báo và làm mới trang
             if (response.ok) {
                 alert("Category changed successfully!");
                 location.reload();
             } else {
-                // nếu có lỗi, hiển thị thông báo lỗi
                 throw new Error('Response not OK');
             }
         })
@@ -380,12 +375,10 @@ function deleteCategoryById(id) {
             method: 'DELETE'
         })
         .then(function(response) {
-            // nếu thành công, hiển thị thông báo và làm mới trang
             if (response.ok) {
                 alert("Category deleted successfully!");
                 location.reload();
             } else {
-                // nếu có lỗi, hiển thị thông báo lỗi
                 throw new Error('Response not OK');
             }
         })
@@ -397,13 +390,11 @@ function deleteCategoryById(id) {
 function createCategoryFinal() {
     var categoryId = document.querySelector('input[name="categoryIdCreate"]').value
     var categoryName = document.querySelector('input[name="categoryNameCreate"]').value
-        // tạo đối tượng user từ dữ liệu form
     var user = {
         "categoryId": categoryId,
         "categoryName": categoryName
     };
     apiUrl = "http://localhost:8888/category/add";
-    // gửi yêu cầu POST đến API
     fetch(apiUrl, {
             method: 'POST',
             headers: {
@@ -412,12 +403,10 @@ function createCategoryFinal() {
             body: JSON.stringify(user)
         })
         .then(function(response) {
-            // nếu thành công, hiển thị thông báo và làm mới trang
             if (response.ok) {
                 alert("Category added successfully!");
                 location.reload();
             } else {
-                // nếu có lỗi, hiển thị thông báo lỗi
                 throw new Error('Response not OK');
             }
         })
@@ -450,6 +439,10 @@ function getCategoryById(id) {
         })
         .catch(error => console.error(error));
 }
+
+
+
+
 
 //Main 
 function countCustomer() {
@@ -585,46 +578,14 @@ function topEndProduct() {
         .catch(error => console.error(error));
 }
 
-function createChart() {
-    var fake = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    var apiUrl = "http://localhost:8888/orders/chart"
-    fetch(apiUrl, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(datas => {
-            datas.map(function(data) {
-                fake[data[0]] = data[1]
-            })
-        })
-        .catch(error => console.error(error));
-    console.log(fake)
-    var data = {
-        labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
-        datasets: [{
-            label: "Dữ liệu đầu tiên",
-            fillColor: "rgba(255, 213, 59, 0.767), 212, 59)",
-            strokeColor: "rgb(255, 212, 59)",
-            pointColor: "rgb(255, 212, 59)",
-            pointStrokeColor: "rgb(255, 212, 59)",
-            pointHighlightFill: "rgb(255, 212, 59)",
-            pointHighlightStroke: "rgb(255, 212, 59)",
-            data: fake
-        }]
-    };
-    var ctxl = $("#lineChartDemo").get(0).getContext("2d");
-    var lineChart = new Chart(ctxl).Line(data);
 
-    var ctxb = $("#barChartDemo").get(0).getContext("2d");
-    var barChart = new Chart(ctxb).Bar(data);
-}
+
+
+
+
+
 
 //Order 
-
-
 function getAllOrderByCustomerId() {
     var a = document.querySelector('#search').value;
     var apiUrl = "http://localhost:8888/orders/viewOrderByUser/" + a;
@@ -722,7 +683,6 @@ function updateOrder() {
 
     apiUrl = "http://localhost:8888/orders/update/" + orderId + "/" + locations + "/" + payment_method
 
-    // gửi yêu cầu POST đến API
     fetch(apiUrl, {
             method: 'PUT',
             headers: {
@@ -731,12 +691,10 @@ function updateOrder() {
             body: JSON.stringify()
         })
         .then(function(response) {
-            // nếu thành công, hiển thị thông báo và làm mới trang
             if (response.ok) {
                 alert("Order changed successfully!");
                 location.reload();
             } else {
-                // nếu có lỗi, hiển thị thông báo lỗi
                 throw new Error('Response not OK');
             }
         })
@@ -798,7 +756,6 @@ function createCustomerFinal() {
     var phone_number = document.querySelector('input[name="phone_numberCreate"]').value
     var email = document.querySelector('input[name="emailCreate"]').value
     var password = document.querySelector('input[name="passwordCreate"]').value
-        // tạo đối tượng user từ dữ liệu form
     var user = {
         "name": name,
         "username": username,
@@ -807,7 +764,6 @@ function createCustomerFinal() {
         "password": password
     };
     apiUrl = "http://localhost:8888/customers/add";
-    // gửi yêu cầu POST đến API
     fetch(apiUrl, {
             method: 'POST',
             headers: {
@@ -816,12 +772,10 @@ function createCustomerFinal() {
             body: JSON.stringify(user)
         })
         .then(function(response) {
-            // nếu thành công, hiển thị thông báo và làm mới trang
             if (response.ok) {
                 alert("Customer added successfully!");
                 location.reload();
             } else {
-                // nếu có lỗi, hiển thị thông báo lỗi
                 throw new Error('Response not OK');
             }
         })
@@ -843,12 +797,10 @@ function deleteCustomerById(cid) {
             method: 'DELETE'
         })
         .then(function(response) {
-            // nếu thành công, hiển thị thông báo và làm mới trang
             if (response.ok) {
                 alert("Customer deleted successfully!");
                 location.reload();
             } else {
-                // nếu có lỗi, hiển thị thông báo lỗi
                 throw new Error('Response not OK');
             }
         })
@@ -900,7 +852,6 @@ function updateCustomer() {
     var username = document.querySelector('input[name="username"]').value
     var email = document.querySelector('input[name="email"]').value
     var phone_number = document.querySelector('input[name="phone_number"]').value
-        // tạo đối tượng user từ dữ liệu form
     var customer = {
         "cid": cid,
         "name": name,
@@ -910,7 +861,6 @@ function updateCustomer() {
     };
     console.log(customer);
     apiUrl = "http://localhost:8888/customers/update/" + cid;
-    // gửi yêu cầu POST đến API
     fetch(apiUrl, {
             method: 'PUT',
             headers: {
@@ -919,12 +869,10 @@ function updateCustomer() {
             body: JSON.stringify(customer)
         })
         .then(function(response) {
-            // nếu thành công, hiển thị thông báo và làm mới trang
             if (response.ok) {
                 alert("Customer changed successfully!");
                 location.reload();
             } else {
-                // nếu có lỗi, hiển thị thông báo lỗi
                 throw new Error('Response not OK');
             }
         })
@@ -934,30 +882,36 @@ function updateCustomer() {
 }
 
 
-//FireBase
 
-function getUrl() {
-    // Khai báo một instance Firebase
+
+
+
+//FireBase
+function getUrl(imgName) {
     var firebaseConfig = {
         apiKey: "AIzaSyDow9PLyg6kLQbKFTFqZ4duBdDQfXnJ23k",
-        authDomain: "TechEcommerceServer.firebaseapp.com",
-        storageBucket: "TechEcommerceServer.appspot.com",
+        authDomain: "techecommerceserver.firebaseapp.com",
+        storageBucket: "techecommerceserver.appspot.com",
     };
     firebase.initializeApp(firebaseConfig);
 
-    // Khai báo một instance Firebase Storage
     var storageRef = firebase.storage().ref();
-
-    // Lấy URL của một ảnh lưu trên Firebase Storage
+    imgtag = document.querySelector(imgName)
     storageRef
-        .child("products_img/iPhone 14 pro.png")
-        .getDownloadURL()
-        .then(function(url) {
-            // Sử dụng URL để hiển thị ảnh trong HTML
-            // var img = document.createElement("img");
-            // img.src = url;
-            // document.body.appendChild(img);
-            console.log(url)
+        .child("products_img")
+        .listAll()
+        .then(function(imgs) {
+            var content = imgs.items.map(function(img) {
+                var urls = img.location.path_
+                console.log(urls)
+                storageRef
+                    .child(urls)
+                    .getDownloadURL()
+                    .then(function(url) {
+                        htmlTemplate = `<option value="${url}"> ${img.name.split('.')[0]} </option>`;
+                        imgtag.innerHTML += htmlTemplate;
+                    });
+            });
         })
         .catch(function(error) {
             console.error(error);
