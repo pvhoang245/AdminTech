@@ -6,7 +6,7 @@ var domain = "http://localhost:8888"
 
 //Product 
 function getAllProduct() {
-    apiUrl = "/products/view"
+    apiUrl = domain + "/products/view"
     fetch(apiUrl, {
             method: 'GET',
             headers: {
