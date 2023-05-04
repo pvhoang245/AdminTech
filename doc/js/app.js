@@ -8,7 +8,6 @@ var domain = "http://localhost:8888"
 function getAllProduct() {
     apiUrl = "/products/view"
     fetch(apiUrl, {
-            mode: 'no-cors',
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
