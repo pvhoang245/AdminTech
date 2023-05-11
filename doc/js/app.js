@@ -1,5 +1,5 @@
 // var domain = "https://bb8b-2405-4802-1c8e-6570-bc22-33c0-1f40-c5d1.ngrok-free.app"
-var domain = "http://localhost:8888"
+var domain = "http://10.20.65.131:8888"
 
 
 
@@ -676,18 +676,18 @@ function getOrderById(id) {
 		<div class="form-group col-md-6 ">
             <label for="exampleSelect1" class="control-label"> phương thức thanh toán </label>
             <select class="form-control" id="payment_method">
-                <option> Zalo Pay </option>
-                <option> COD </option>
-                <option> ATM </option>
+                <option value="Zalo Pay"> Zalo Pay </option>
+                <option value="COD"> COD </option>
+                <option value="ATM"> ATM </option>
             </select>
         </div>
 		<div class="form-group col-md-6 ">
             <label for="exampleSelect1" class="control-label"> Tình Trạng </label>
             <select class="form-control" id="orderStatus">
-                <option> Pending   </option>
-                <option> Delivered </option>
-                <option> Cancelled </option>
-				<option> Paid </option>
+                <option value="Pending"> Pending   </option>
+                <option value="Delivered"> Delivered </option>
+                <option value="Cancelled"> Cancelled </option>
+				<option value="Paid"> Paid </option>
             </select>
         </div>`;
             listOrder123.innerHTML = content;
