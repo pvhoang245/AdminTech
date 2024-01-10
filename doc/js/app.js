@@ -1,5 +1,5 @@
 // var domain = "https://bb8b-2405-4802-1c8e-6570-bc22-33c0-1f40-c5d1.ngrok-free.app"
-var domain = "http://10.20.65.131:8888"
+var domain = "http://localhost:8888"
 
 
 
