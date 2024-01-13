@@ -1,19 +1,25 @@
 // var domain = "https://bb8b-2405-4802-1c8e-6570-bc22-33c0-1f40-c5d1.ngrok-free.app"
-var domain = "http://localhost:8888"
-
-
-
+var domain = "https://infinite-sincerely-crow.ngrok-free.app"
 
 //Product 
 function getAllProduct() {
     apiUrl = domain + "/products/view"
     fetch(apiUrl, {
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            headers: new Headers({
+                "ngrok-skip-browser-warning": "69420",
+                "Content-Type": "application/json",
+              }),
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                console.log(response)
+            }
+            else{
+                return response.json()
+            }
+        
+        })
         .then(datas => {
             var listUser = document.querySelector('#list_product');
             var content = datas.map(function(user) {
@@ -50,7 +56,8 @@ function popupDeleteProduct(id) {
 
 function deleteProductById(id) {
     fetch(domain + '/products/remove/' + id, {
-            method: 'DELETE'
+            method: 'DELETE',
+            'ngrok-skip-browser-warning': 69420
         })
         .then(function(response) {
             if (response.ok) {
@@ -70,7 +77,8 @@ function getProductById(id) {
     fetch(apiUrl, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             }
         })
         .then(response => response.json())
@@ -174,7 +182,8 @@ function updateProduct() {
     fetch(apiUrl, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             },
             body: JSON.stringify(user)
         })
@@ -218,7 +227,8 @@ function createProductFinal() {
     fetch(apiUrl, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             },
             body: JSON.stringify(user)
         })
@@ -239,7 +249,8 @@ function createProduct() {
     fetch(domain + "/category/getAll", {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             }
         })
         .then(response => response.json())
@@ -263,7 +274,8 @@ function searchProduct() {
     fetch(domain + "/products/search/" + chuoi, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             }
         })
         .then(response => response.json())
@@ -301,10 +313,12 @@ function searchProduct() {
 //Category 
 function getAllCategory() {
     apiUrl = domain + "/category/getAll"
+    console.log(apiUrl)
     fetch(apiUrl, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             }
         })
         .then(response => response.json())
@@ -329,7 +343,8 @@ function createCategory() {
     fetch(domain + "/category/count", {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             }
         })
         .then(response => response.json())
@@ -352,7 +367,8 @@ function updateCategory() {
     fetch(apiUrl, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             },
             body: JSON.stringify(user)
         })
@@ -378,7 +394,8 @@ function popupDaleteCategory(id) {
 
 function deleteCategoryById(id) {
     fetch(domain + '/category/remove/' + id, {
-            method: 'DELETE'
+            method: 'DELETE',
+            'ngrok-skip-browser-warning': 69420
         })
         .then(function(response) {
             if (response.ok) {
@@ -404,7 +421,8 @@ function createCategoryFinal() {
     fetch(apiUrl, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             },
             body: JSON.stringify(user)
         })
@@ -426,7 +444,8 @@ function getCategoryById(id) {
     fetch(apiUrl, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             }
         })
         .then(response => response.json())
@@ -455,7 +474,8 @@ function countCustomer() {
     fetch(domain + "/customers/count", {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             }
         })
         .then(response => response.json())
@@ -470,7 +490,8 @@ function countProduct() {
     fetch(domain + "/products/count", {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             }
         })
         .then(response => response.json())
@@ -485,7 +506,8 @@ function countOrder() {
     fetch(domain + "/orders/count", {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             }
         })
         .then(response => response.json())
@@ -500,7 +522,8 @@ function countEndProduct() {
     fetch(domain + "/products/countEnd", {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             }
         })
         .then(response => response.json())
@@ -516,7 +539,8 @@ function top5Sell() {
     fetch(apiUrl, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             }
         })
         .then(response => response.json())
@@ -541,7 +565,8 @@ function top5Order() {
     fetch(apiUrl, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             }
         })
         .then(response => response.json())
@@ -565,7 +590,8 @@ function topEndProduct() {
     fetch(apiUrl, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             }
         })
         .then(response => response.json())
@@ -598,7 +624,8 @@ function getAllOrderByCustomerId() {
     fetch(apiUrl, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             }
         })
         .then(response => response.json())
@@ -628,7 +655,8 @@ function getAllOrder() {
     fetch(apiUrl, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             }
         })
         .then(response => response.json())
@@ -658,7 +686,8 @@ function getOrderById(id) {
     fetch(apiUrl, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             }
         })
         .then(response => response.json())
@@ -706,7 +735,8 @@ function updateOrder() {
     fetch(apiUrl, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             },
             body: JSON.stringify()
         })
@@ -735,7 +765,14 @@ function updateOrder() {
 
 //Customer
 function getAllCustomer() {
-    fetch(domain + '/customers/view')
+    fetch(domain + '/customers/view',{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
+            }
+        
+    })
         .then(response => response.json())
         .then(customers => {
             const tableBody = document.querySelector('#customerTable tbody');
@@ -786,7 +823,8 @@ function createCustomerFinal() {
     fetch(apiUrl, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             },
             body: JSON.stringify(user)
         })
@@ -813,7 +851,8 @@ function popupDaleteCustomer(cid) {
 
 function deleteCustomerById(cid) {
     fetch(domain + '/customers/remove/' + cid, {
-            method: 'DELETE'
+            method: 'DELETE',
+            'ngrok-skip-browser-warning': 69420
         })
         .then(function(response) {
             if (response.ok) {
@@ -833,7 +872,8 @@ function getCustomerById(cid) {
     fetch(apiUrl, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             }
         })
         .then(response => response.json())
@@ -883,7 +923,8 @@ function updateCustomer() {
     fetch(apiUrl, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 69420
             },
             body: JSON.stringify(customer)
         })
